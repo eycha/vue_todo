@@ -9,7 +9,12 @@
       @keyup.enter="addTodo"
     />
     <hr />
-    <Todo v-for="todo in todos" :key="todo.id" :todo="todo" />
+    <Todo
+      v-for="todo in todos"
+      :key="todo.id"
+      :todo="todo"
+      @toggle-checkbox="toggleCheckbox"
+    />
   </div>
 </template>
 
@@ -21,7 +26,7 @@ export default {
   },
   data() {
     return {
-      // todoText: "",
+      todoText: "",
       todos: [
         {id: 1, text: "buy a car", checked: false},
         {id: 2, text: "play game", checked: false},
@@ -37,6 +42,12 @@ export default {
         checked: false,
       });
       this.todoText = "";
+    },
+    toggleCheckbox({id, checked}) {
+      const index = this.todos.findIndex((todo) => {
+        return todo.id === id;
+      });
+      this.todos[index].checked = checked;
     },
   },
 };
