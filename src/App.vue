@@ -1,18 +1,12 @@
 <template>
   <div id="app" class="container">
     <h1 class="text-center">Todo App</h1>
-    <input
-      v-model="todoText"
-      type="text"
-      class="w-100 p-2"
-      placeholder="Type todo"
-      @keyup.enter="addTodo"
-    />
+
+    <AddTodo @add-todo="addTodo" />
+    <CompletedTodo :todos="todos" />
     <hr />
-    <Todo
-      v-for="todo in todos"
-      :key="todo.id"
-      :todo="todo"
+    <TodoList
+      :todos="todos"
       @toggle-checkbox="toggleCheckbox"
       @click-delete="deleteTodo"
     />
@@ -20,10 +14,15 @@
 </template>
 
 <script>
-import Todo from "./components/Todo-comp.vue";
+import TodoList from "./components/TodoList-comp";
+import AddTodo from "./components/AddTodo-comp.vue";
+import CompletedTodo from "./components/CompletedTodo-comp";
+
 export default {
   components: {
-    Todo,
+    TodoList,
+    AddTodo,
+    CompletedTodo,
   },
   data() {
     return {
@@ -36,10 +35,10 @@ export default {
   },
 
   methods: {
-    addTodo(e) {
+    addTodo(value) {
       this.todos.push({
         id: Math.random(),
-        text: e.target.value,
+        text: value,
         checked: false,
       });
       this.todoText = "";
